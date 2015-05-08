@@ -9,6 +9,7 @@ pobli = 0
 repeat_time = 100
 pobli_step=0.01
 
+# 重复次数装饰器
 def repeat(fun):
     def inner(*argv):
         global repeat_time
@@ -19,6 +20,7 @@ def repeat(fun):
         return liss
     return inner
 
+# 模拟，返回每一次渗透成功的概率
 def process(pobli):
     for i in range(size[0]):
         for ii in range(size[1]):
@@ -30,20 +32,20 @@ def process(pobli):
                     continue
             else:
                 break
-    
+
+# 概率池，每一步增加0.01的概率
 @repeat
 def pobliplus(pobli):
     lis = []
-
     while pobli<=0.99:
         lis.append(process(pobli))
         pobli += pobli_step
 
     return lis
 
+# 筛选所有实验中，最小的一次概率，打印100次试验的最小值和平均值
 def avg(lis):
     a = []
-
     for i in lis:
         for ii in i:
             if ii:
@@ -57,9 +59,7 @@ def avg(lis):
 
 def main():
     global pobli
-
     avg(pobliplus(pobli))
-
 
 if __name__ == '__main__':
     main()
